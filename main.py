@@ -24,11 +24,11 @@ def get_count():
   return delta.days
   
 def get_weather():
-  key = "5c240f4243d9254aef02e4dd5e8234c78"
-  url = "https://restapi.amap.com/v3/weather/weatherInfo?key=" + key + "&city=北京&extensions=all"
+  key = "4r9bergjetiv1tsd"
+  url = "https://api.seniverse.com/v3/weather/daily.json?key=" + key + "&location=beijing&language=zh-Hans&unit=c"
   res = requests.get(url).json()
-  weather = res['forecasts'][0]
-  return weather['weather'], math.floor(weather['temp'])
+  weather = res['results'][0]['daily'][0]
+  return weather['text_day'], math.floor(weather['low'])
   
 def get_birthday():
   next = datetime.strptime(str(date.today().year) + "-" + birthday, "%Y-%m-%d")
