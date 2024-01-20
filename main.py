@@ -36,7 +36,7 @@ def get_birthday():
   return (next - today).days
 
 def get_words():
-  words = requests.get("https://api.shadiao.pro/chp")
+  words = requests.get("https://restapi.amap.com/v3/weather/weatherInfo?key=5c240f4243d9254aef02e4dd5e8234c78&city=110000&extensions=all")
   if words.status_code != 200:
     return get_words()
   return words.json()['data']['text']
