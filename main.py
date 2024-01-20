@@ -24,7 +24,8 @@ def get_count():
   return delta.days
   
 def get_weather():
-  url = "https://restapi.amap.com/v3/weather/weatherInfo?key=5c240f4243d9254aef02e4dd5e8234c78&city=北京&extensions=all"
+  key = "5c240f4243d9254aef02e4dd5e8234c78"
+  url = "https://restapi.amap.com/v3/weather/weatherInfo?key=" + key + "&city=北京&extensions=all"
   res = requests.get(url).json()
   weather = res['forecasts'][0]
   return weather['weather'], math.floor(weather['temp'])
