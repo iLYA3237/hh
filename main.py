@@ -24,7 +24,7 @@ def get_count():
   return delta.days
   
 def get_weather():
-  url = "http://dev.virtualearth.net/REST/v1/Weather" + city
+  url = "https://restapi.amap.com/v3/weather/weatherInfo?key=5c240f4243d9254aef02e4dd5e8234c78&city=110000&extensions=all" + city
   res = requests.get(url).json()
   weather = res['data']['list'][0]
   return weather['weather'], math.floor(weather['temp'])
@@ -36,7 +36,7 @@ def get_birthday():
   return (next - today).days
 
 def get_words():
-  words = requests.get("https://restapi.amap.com/v3/weather/weatherInfo?key=5c240f4243d9254aef02e4dd5e8234c78&city=110000&extensions=all")
+  words = requests.get("https://api.shadiao.pro/chp")
   if words.status_code != 200:
     return get_words()
   return words.json()['data']['text']
