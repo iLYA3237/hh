@@ -28,7 +28,7 @@ def get_weather():
   url = "https://api.seniverse.com/v3/weather/daily.json?key=" + key + "&location=beijing&language=zh-Hans&unit=c"
   res = requests.get(url).json()
   weather = res['results'][0]['daily'][0]
-  return weather['text_day'], math.floor(weather['low'])
+  return weather['text_day'], math.floor(int(weather['low']))
   
 def get_birthday():
   next = datetime.strptime(str(date.today().year) + "-" + birthday, "%Y-%m-%d")
