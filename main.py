@@ -37,11 +37,16 @@ def get_birthday():
   return (next - today).days
 
 def get_words():
-  words = requests.get("https://api.shadiao.pro/chp")
- 
-    return get_words()
-  return words.json()['data']['text']
-
+  max_tries = 10
+  current_tries = 0
+  while current_tries < max_tries:
+    words = requests.get("https://api.shadiao.pro/chp")
+    if words.status_code == 200:
+      return words.json()['data']['text']
+    else:
+      current_tries += 1
+  return f"请求失败，超过了最大的请求次数：{max_tries}"
+  
 def get_random_color():
   return "#%06x" % random.randint(0, 0xFFFFFF)
 
