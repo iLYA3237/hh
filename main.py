@@ -23,28 +23,16 @@ def get_count():
   delta = today - datetime.strptime(start_date, "%Y-%m-%d")
   return delta.days
   
-KEY = "96b7e38655fe45528eaa427f04ff87a7"
-
-# 你可以从环境变量或输入中获取 city，例如 os.environ["CITY"]
-city = os.environ.get("CITY", "beijing")  # 默认为北京
-
 def get_weather():
-    url = f"https://devapi.qweather.com/v7/weather/now?location={city}&key={KEY}"
-    try:
-        res = requests.get(url, timeout=5)
-        res.raise_for_status()
-        data = res.json()
-
-        if data["code"] == "200":
-            weather_text = data["now"]["text"]
-            temp = int(float(data["now"]["temp"]))
-            return weather_text, temp
-        else:
-            print(f"API 错误：{data['code']} - {data.get('message', '')}")
-            return "获取失败", 0
-    except Exception as e:
-        print(f"获取天气失败：{e}")
-        return "获取失败", 0
+    key = "4r9bergjetiv1tsd"
+    url = f"https://api.seniverse.com/v3/weather/daily.json?key={key}&location={city}&language=zh-Hans&unit=c"
+    res = requests.get(url).json()
+    
+    # 获取明天的天气（即第二项）
+    weather = res['results'][0]['daily'][1]
+    
+    # 返回白天天气现象 和 最高温
+    return weather['text_day'], math.floor(int(weather['high']))
 
   
 def get_birthday():
