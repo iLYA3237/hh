@@ -24,11 +24,18 @@ def get_count():
   return delta.days
   
 def get_weather():
-  key = "4r9bergjetiv1tsd"
-  url = f"https://api.seniverse.com/v3/weather/daily.json?key={key}&location={city}&language=zh-Hans&unit=c"
-  res = requests.get(url).json()
-  weather = res['results'][0]['daily'][0]
-  return weather['text_day'], math.floor(int(weather['low']))
+    key = "4r9bergjetiv1tsd"
+    url = f"https://api.seniverse.com/v3/weather/daily.json?key={key}&location={city}&language=zh-Hans&unit=c"
+    try:
+        res = requests.get(url, timeout=5)
+        res.raise_for_status()  # 如果响应不是 200，会抛出异常
+        data = res.json()
+        weather = data['results'][0]['daily'][0]
+        return weather['text_day'], math.floor(int(weather['low']))
+    except Exception as e:
+        print(f"获取天气失败：{e}")
+        return "获取失败", 0
+
   
 def get_birthday():
   next = datetime.strptime(str(date.today().year) + "-" + birthday, "%Y-%m-%d")
