@@ -29,7 +29,7 @@ def get_weather():
     res = requests.get(url).json()
     
     # 获取明天的天气（即第二项）
-    weather = res['results'][0]['daily'][1]
+    weather = res['results'][0]['daily'][0]
     
     # 返回白天天气现象 和 最高温
     return weather['text_day'], math.floor(int(weather['high']))
