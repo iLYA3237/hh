@@ -25,7 +25,7 @@ def get_count():
   
 def get_weather():
   key = "4r9bergjetiv1tsd"
-  url = "https://api.seniverse.com/v3/weather/daily.json?key=" + key + "&location=beijing&language=zh-Hans&unit=c"
+  url = f"https://api.seniverse.com/v3/weather/daily.json?key={key}&location={city}&language=zh-Hans&unit=c"
   res = requests.get(url).json()
   weather = res['results'][0]['daily'][0]
   return weather['text_day'], math.floor(int(weather['low']))
