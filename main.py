@@ -23,15 +23,23 @@ def get_count():
   delta = today - datetime.strptime(start_date, "%Y-%m-%d")
   return delta.days
   
+KEY = "96b7e38655fe45528eaa427f04ff87a7"  # 你的和风天气 API KEY
+LOCATION_ID = "HE2401201350251396"        # 你要查询的城市 LocationID
+
 def get_weather():
-    key = "4r9bergjetiv1tsd"
-    url = f"https://api.seniverse.com/v3/weather/daily.json?key={key}&location={city}&language=zh-Hans&unit=c"
+    url = f"https://devapi.qweather.com/v7/weather/now?location={LOCATION_ID}&key={KEY}"
     try:
         res = requests.get(url, timeout=5)
-        res.raise_for_status()  # 如果响应不是 200，会抛出异常
+        res.raise_for_status()
         data = res.json()
-        weather = data['results'][0]['daily'][0]
-        return weather['text_day'], math.floor(int(weather['low']))
+
+        if data["code"] == "200":
+            weather_text = data["now"]["text"]         # 天气状况（如 晴、多云）
+            temp = int(float(data["now"]["temp"]))     # 当前温度，转为整数
+            return weather_text, temp
+        else:
+            print(f"API 错误：{data['code']}")
+            return "获取失败", 0
     except Exception as e:
         print(f"获取天气失败：{e}")
         return "获取失败", 0
