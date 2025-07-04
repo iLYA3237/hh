@@ -23,22 +23,24 @@ def get_count():
   delta = today - datetime.strptime(start_date, "%Y-%m-%d")
   return delta.days
   
-KEY = "96b7e38655fe45528eaa427f04ff87a7"  # 你的和风天气 API KEY
-LOCATION_ID = "HE2401201350251396"        # 你要查询的城市 LocationID
+KEY = "96b7e38655fe45528eaa427f04ff87a7"
+
+# 你可以从环境变量或输入中获取 city，例如 os.environ["CITY"]
+city = os.environ.get("CITY", "beijing")  # 默认为北京
 
 def get_weather():
-    url = f"https://devapi.qweather.com/v7/weather/now?location={LOCATION_ID}&key={KEY}"
+    url = f"https://devapi.qweather.com/v7/weather/now?location={city}&key={KEY}"
     try:
         res = requests.get(url, timeout=5)
         res.raise_for_status()
         data = res.json()
 
         if data["code"] == "200":
-            weather_text = data["now"]["text"]         # 天气状况（如 晴、多云）
-            temp = int(float(data["now"]["temp"]))     # 当前温度，转为整数
+            weather_text = data["now"]["text"]
+            temp = int(float(data["now"]["temp"]))
             return weather_text, temp
         else:
-            print(f"API 错误：{data['code']}")
+            print(f"API 错误：{data['code']} - {data.get('message', '')}")
             return "获取失败", 0
     except Exception as e:
         print(f"获取天气失败：{e}")
